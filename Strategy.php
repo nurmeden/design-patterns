@@ -4,20 +4,23 @@ interface SortingStrategy
     public function sort(array $data);
 }
 
-class BubbleSort implements SortingStrategy {
+class BubbleSort implements SortingStrategy
+{
     public function sort(array $data)
     {
         $n = count($data);
 
-        for ($i=0; $i< $n - 1; $i++) {
-            for ($j=0; $j< $n - $i - 1; $j++) {
+        for ($i = 0; $i < $n - 1; $i++) {
+            for ($j = 0; $j < $n - $i - 1; $j++) {
                 if ($data[$j] > $data[$j + 1]) {
+                    // Обмен значениями
                     $temp = $data[$j];
-                    $data[$j] = $data[$j + $i];
+                    $data[$j] = $data[$j + 1];
                     $data[$j + 1] = $temp;
                 }
             }
         }
+
         return $data;
     }
 }
@@ -51,10 +54,11 @@ class Sorter
 
     public function __construct(SortingStrategy $sortingStrategy)
     {
-        $this->sortingStrategy = $this->sortingStrategy;
+        $this->sortingStrategy = $sortingStrategy;
     }
 
-    public function setSortingStrategy(SortingStrategy $sortingStrategy) {
+    public function setSortingStrategy(SortingStrategy $sortingStrategy)
+    {
         $this->sortingStrategy = $sortingStrategy;
     }
 
@@ -64,13 +68,13 @@ class Sorter
     }
 }
 
-$data = [5,4,6,58,8];
+$data = [5, 2, 7, 1, 8];
 
 $sorter = new Sorter(new BubbleSort());
-$sorterData = $sorter->sortData($data);
-echo implode(", ", $sorterData);
+$sortedData = $sorter->sortData($data);
+echo implode(", ", $sortedData); // Выводит: "1, 2, 5, 7, 8"
 
 $sorter->setSortingStrategy(new QuickSort());
-$sorterData = $sorter->sortData($data);
-echo implode(", ", $sorterData);
+$sortedData = $sorter->sortData($data);
+echo implode(", ", $sortedData); // Выводит: "1, 2, 5, 7, 8"
 ?>
